@@ -12,10 +12,14 @@ public:
 	{
 		material = NULL;
 	}
-	virtual ~Object3D(){}
 
-	Object3D( Material* material){
-	this->material = material ; 
+	virtual ~Object3D()
+	{
+	}
+
+	Object3D( Material* material)
+	{
+		this->material = material ; 
 	}
 	
 	virtual bool intersect( const Ray& r , Hit& h, float tmin) = 0;

@@ -29,7 +29,7 @@ class PerspectiveCamera: public Camera
 {
 public:
 	PerspectiveCamera(const Vector3f& center, const Vector3f& direction,const Vector3f& up , float angle){
-
+		
 	}
 
 	virtual Ray generateRay( const Vector2f& point){
@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-
+	
 };
 
 #endif //CAMERA_H

@@ -21,27 +21,49 @@ public:
   }
 	
   Group( int num_objects ){
-
+	  objects.reserve(num_objects);
   }
 
   ~Group(){
-   
+	  for(int i = 0; i < objects.size(); i++)
+	  {
+		  delete objects[i];
+	  }
   }
 
   virtual bool intersect( const Ray& r , Hit& h , float tmin ) {
-		return false;
+	  float t = INFINITY;
+	  for(int i = 0; i < objects.size(); i++)
+	  {
+		  if(objects[i]->intersect(r, h, tmin))
+		  {
+			  if(h.getT() < t)
+			  {
+				  t = h.getT();
+			  }
+		  }
+	  }
+
+	  if(t == INFINITY)
+	  {
+		  return false;
+	  }
+	  else
+	  {
+		  return true;
+	  }
    }
 	
   void addObject( int index , Object3D* obj ){
-
+	  objects[index] = obj;
   }
 
   int getGroupSize(){ 
-  
+	  return objects.size();
   }
 
  private:
-
+	 vector<Object3D*> objects;
 };
 
 #endif
