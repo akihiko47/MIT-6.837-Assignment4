@@ -43,7 +43,7 @@ public:
 
 	virtual Ray generateRay( const Vector2f& point){
 		float D = 1 / (tan(m_angle / 2));
-		Vector3f r = (point.x() * u, point.y() * v, D * w).normalized();
+		Vector3f r = (point.x() * u + point.y() * v + D * w).normalized();
 		return Ray(m_center, r);
 	}
 

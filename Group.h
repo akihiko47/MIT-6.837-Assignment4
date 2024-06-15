@@ -21,7 +21,7 @@ public:
   }
 	
   Group( int num_objects ){
-	  objects.reserve(num_objects);
+	  objects.resize(num_objects);
   }
 
   ~Group(){
