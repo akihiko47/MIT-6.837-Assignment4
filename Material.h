@@ -33,8 +33,12 @@ public:
   Vector3f Shade( const Ray& ray, const Hit& hit,
                   const Vector3f& dirToLight, const Vector3f& lightColor ) {
 
-    return Vector3f(1,1,1) ; 
-		
+      Vector3f p = ray.getOrigin() + ray.getDirection() * hit.getT();
+
+      Vector3f L = dirToLight;
+      Vector3f N = hit.getNormal();
+
+      return clamp(Vector3f::dot(L, N), 0.0f, 1.0f) * lightColor * diffuseColor;
   }
 
   void loadTexture(const char * filename){
@@ -45,6 +49,10 @@ public:
   Vector3f specularColor;
   float shininess;
   Texture t;
+
+  float clamp(float x, float a, float b){
+      return max(a, min(x, b));
+  }
 };
 
 

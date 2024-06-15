@@ -63,12 +63,29 @@ int main( int argc, char* argv[] )
             Ray ray = parser.getCamera()->generateRay(Vector2f((float)i / size_x * 2 - 1, (float)j / size_y * 2 - 1));
             Hit hit;
 
-            if(parser.getGroup()->intersect(ray, hit, parser.getCamera()->getTMin()))
+            bool result = parser.getGroup()->intersect(ray, hit, parser.getCamera()->getTMin());
+            if(result)
             {
-                float depth = hit.getT();
-                depth = smoothstep(8.0, 10.0, depth);
+                //float depth = hit.getT();
+                //depth = smoothstep(8.0, 10.0, depth);
 
-                Vector3f pixelColor(depth, depth, depth);
+                Vector3f p = ray.getOrigin() + ray.getDirection() * hit.getT();
+                Vector3f pixelColor(0.0f);
+
+                for (int l = 0; l < parser.getNumLights(); l++)
+                {
+                    Light* light = parser.getLight(l);
+
+                    Vector3f lightColor;
+                    float lightDist;
+                    Vector3f L;
+                    light->getIllumination(p, L, lightColor, lightDist);
+
+                    pixelColor += hit.getMaterial()->Shade(ray, hit, L, lightColor);
+                }
+
+                pixelColor += parser.getAmbientLight();
+
                 image.SetPixel(i, j, pixelColor);
             } else {
                 image.SetPixel(i, j, parser.getBackgroundColor());

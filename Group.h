@@ -33,9 +33,11 @@ public:
 
   virtual bool intersect( const Ray& r , Hit& h , float tmin ) {
 	  float t = INFINITY;
+
 	  for(int i = 0; i < objects.size(); i++)
-	  {
-		  if(objects[i]->intersect(r, h, tmin))
+	  {	
+		  bool result = objects[i]->intersect(r, h, tmin);
+		  if(result)
 		  {
 			  if(h.getT() < t)
 			  {

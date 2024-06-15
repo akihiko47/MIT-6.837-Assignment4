@@ -18,17 +18,15 @@ public:
 		m_radius = 1;
 	}
 
-	Sphere( Vector3f center , float radius , Material* material ) : Object3D(material){
+	Sphere( Vector3f center , float radius , Material* material ) : Object3D(material)
+	{
 		m_center = center;
 		m_radius = radius;
 	}
 	
 	~Sphere()
 	{
-		delete material;
-		material = 0;
-		m_center = 0;
-		m_radius = 0;
+
 	}
 
 	virtual bool intersect( const Ray& r , Hit& h , float tmin){
@@ -39,6 +37,11 @@ public:
 		float c = Vector3f::dot(Ro, Ro) - m_radius * m_radius;
 
 		float disc = b * b - 4.0 * a * c;
+
+		if(disc < 0)
+		{
+			return false;
+		}
 
 		float t0 = (-b + std::sqrtf(disc)) / (2.0 * a);
 		float t1 = (-b - std::sqrtf(disc)) / (2.0 * a);
