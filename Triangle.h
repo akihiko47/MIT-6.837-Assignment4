@@ -16,18 +16,58 @@ class Triangle: public Object3D
 public:
 	Triangle();
         ///@param a b c are three vertex positions of the triangle
-	Triangle( const Vector3f& a, const Vector3f& b, const Vector3f& c, Material* m):Object3D(m){
+	Triangle( const Vector3f& _a, const Vector3f& _b, const Vector3f& _c, Material* m):Object3D(m){
           hasTex = false;
+		  a = _a;
+		  b = _b;
+		  c = _c;
 	}
 
 	virtual bool intersect( const Ray& ray,  Hit& hit , float tmin){
-		return false;
+		Matrix3f A(a.x() - b.x(), a.x() - c.x(), ray.getDirection().x(),
+				   a.y() - b.y(), a.y() - c.y(), ray.getDirection().y(),
+				   a.z() - b.z(), a.z() - c.z(), ray.getDirection().z());
+
+		float alpha = Matrix3f::determinant3x3(a.x() - ray.getOrigin().x(), a.x() - c.x(), ray.getDirection().x(),
+											   a.y() - ray.getOrigin().y(), a.y() - c.y(), ray.getDirection().y(),
+											   a.z() - ray.getOrigin().z(), a.z() - c.z(), ray.getDirection().z()) / A.determinant();
+
+		float beta = Matrix3f::determinant3x3(a.x() - b.x(), a.x() - ray.getOrigin().x(), ray.getDirection().x(),
+											  a.y() - b.y(), a.y() - ray.getOrigin().y(), ray.getDirection().y(),
+											  a.z() - b.z(), a.z() - ray.getOrigin().z(), ray.getDirection().z()) / A.determinant();
+
+		float gamma = Matrix3f::determinant3x3(a.x() - b.x(), a.x() - c.x(), a.x() - ray.getOrigin().x(),
+											   a.y() - b.y(), a.y() - c.y(), a.y() - ray.getOrigin().y(),
+											   a.z() - b.z(), a.z() - c.z(), a.z() - ray.getOrigin().z()) / A.determinant();
+
+		if(alpha >= 0 && beta >= 0 && gamma >= 0 && (alpha + beta + gamma == 1))
+		{
+			Vector3f p = alpha * a + beta * b + gamma * c;
+			float t = (p - ray.getOrigin()).abs();
+
+			if(t > tmin)
+			{
+				Vector3f normal = alpha * normals[0] + beta * normals[1] + gamma * normals[2];
+				hit.set(t, material, normal);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+		
 	}
 	bool hasTex;
 	Vector3f normals[3];
 	Vector2f texCoords[3];
 protected:
 
+private:
+	Vector3f a;
+	Vector3f b;
+	Vector3f c;
 };
 
 #endif //TRIANGLE_H
