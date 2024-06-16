@@ -28,24 +28,23 @@ public:
 				   a.y() - b.y(), a.y() - c.y(), ray.getDirection().y(),
 				   a.z() - b.z(), a.z() - c.z(), ray.getDirection().z());
 
-		float alpha = Matrix3f::determinant3x3(a.x() - ray.getOrigin().x(), a.x() - c.x(), ray.getDirection().x(),
-											   a.y() - ray.getOrigin().y(), a.y() - c.y(), ray.getDirection().y(),
-											   a.z() - ray.getOrigin().z(), a.z() - c.z(), ray.getDirection().z()) / A.determinant();
+		float beta = Matrix3f::determinant3x3(a.x() - ray.getOrigin().x(), a.x() - c.x(), ray.getDirection().x(),
+											  a.y() - ray.getOrigin().y(), a.y() - c.y(), ray.getDirection().y(),
+											  a.z() - ray.getOrigin().z(), a.z() - c.z(), ray.getDirection().z()) / A.determinant();
 
-		float beta = Matrix3f::determinant3x3(a.x() - b.x(), a.x() - ray.getOrigin().x(), ray.getDirection().x(),
-											  a.y() - b.y(), a.y() - ray.getOrigin().y(), ray.getDirection().y(),
-											  a.z() - b.z(), a.z() - ray.getOrigin().z(), ray.getDirection().z()) / A.determinant();
+		float gamma = Matrix3f::determinant3x3(a.x() - b.x(), a.x() - ray.getOrigin().x(), ray.getDirection().x(),
+											   a.y() - b.y(), a.y() - ray.getOrigin().y(), ray.getDirection().y(),
+											   a.z() - b.z(), a.z() - ray.getOrigin().z(), ray.getDirection().z()) / A.determinant();
 
-		float gamma = Matrix3f::determinant3x3(a.x() - b.x(), a.x() - c.x(), a.x() - ray.getOrigin().x(),
-											   a.y() - b.y(), a.y() - c.y(), a.y() - ray.getOrigin().y(),
-											   a.z() - b.z(), a.z() - c.z(), a.z() - ray.getOrigin().z()) / A.determinant();
+		float t = Matrix3f::determinant3x3(a.x() - b.x(), a.x() - c.x(), a.x() - ray.getOrigin().x(),
+										   a.y() - b.y(), a.y() - c.y(), a.y() - ray.getOrigin().y(),
+										   a.z() - b.z(), a.z() - c.z(), a.z() - ray.getOrigin().z()) / A.determinant();
 
-		if(alpha >= 0 && beta >= 0 && gamma >= 0 && (alpha + beta + gamma == 1))
+		float alpha = 1.0f - beta - gamma;
+
+		if(alpha >= 0 && beta >= 0 && gamma >= 0)
 		{
-			Vector3f p = alpha * a + beta * b + gamma * c;
-			float t = (p - ray.getOrigin()).abs();
-
-			if(t > tmin)
+			if(t > tmin && t < hit.getT())
 			{
 				Vector3f normal = alpha * normals[0] + beta * normals[1] + gamma * normals[2];
 				hit.set(t, material, normal);

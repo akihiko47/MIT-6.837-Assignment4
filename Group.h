@@ -33,7 +33,6 @@ public:
 
   virtual bool intersect( const Ray& r , Hit& h , float tmin ) {
 	  float t = INFINITY;
-	  Hit min_h;
 
 	  for(int i = 0; i < objects.size(); i++)
 	  {	
@@ -43,7 +42,6 @@ public:
 			  if(h.getT() < t)
 			  {
 				  t = h.getT();
-				  min_h.set(t, h.getMaterial(), h.getNormal());
 			  }
 		  }
 	  }
@@ -54,7 +52,6 @@ public:
 	  }
 	  else
 	  {
-		  h.set(t, min_h.getMaterial(), min_h.getNormal());
 		  return true;
 	  }
    }

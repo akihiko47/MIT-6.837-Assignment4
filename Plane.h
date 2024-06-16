@@ -25,7 +25,7 @@ public:
 			Vector3f p0 = m_normal * m_d;
 			float t = Vector3f::dot(p0 - r.getOrigin(), m_normal) / Vector3f::dot(r.getDirection(), m_normal);
 
-			if(t < tmin)
+			if(t < tmin || t > h.getT())
 			{
 				return false;
 			}

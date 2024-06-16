@@ -50,10 +50,18 @@ public:
 			return false;
 		} else {
 			if (t0 < t1) {
+				if(t0 > h.getT())
+				{
+					return false;
+				}
 				Vector3f n = r.getOrigin() + t0 * r.getDirection() - m_center;
 				h.set(t0, material, n);
 				return true;
 			} else {
+				if(t1 > h.getT())
+				{
+					return false;
+				}
 				Vector3f n = r.getOrigin() + t1 * r.getDirection() - m_center;
 				h.set(t1, material, n);
 				return true;
