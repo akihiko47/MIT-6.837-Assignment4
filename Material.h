@@ -33,11 +33,17 @@ public:
   Vector3f Shade( const Ray& ray, const Hit& hit,
                   const Vector3f& dirToLight, const Vector3f& lightColor ) {
 
+      Vector3f albedo = diffuseColor;
+      if(t.valid())
+      {
+          albedo = t(hit.texCoord.x(), hit.texCoord.y());
+      } 
+
       Vector3f V = -ray.getDirection().normalized();
       Vector3f L = dirToLight.normalized();
       Vector3f N = hit.getNormal().normalized();
 
-      Vector3f diff = clamp(Vector3f::dot(L, N), 0.0f, 1.0f) * lightColor * diffuseColor;
+      Vector3f diff = clamp(Vector3f::dot(L, N), 0.0f, 1.0f) * lightColor * albedo;
 
       Vector3f H = (V + L).normalized();
       Vector3f spec = pow(clamp(Vector3f::dot(H, N), 0.0f, 1.0f), shininess * 2.0f) * specularColor * lightColor;

@@ -46,8 +46,11 @@ public:
 		{
 			if(t > tmin && t < hit.getT())
 			{
-				Vector3f normal = alpha * normals[0] + beta * normals[1] + gamma * normals[2];
+				//Vector3f normal = alpha * normals[0] + beta * normals[1] + gamma * normals[2];
+				Vector3f normal = Vector3f::cross(b - a, c - a);
+
 				hit.set(t, material, normal);
+				hit.setTexCoord(alpha * texCoords[0] + beta * texCoords[1] + gamma * texCoords[2]);
 				return true;
 			} else {
 				return false;
