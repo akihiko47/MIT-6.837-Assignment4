@@ -6,8 +6,6 @@
 3) [Assignment description.](https://ocw.mit.edu/courses/6-837-computer-graphics-fall-2012/resources/mit6_837f12_assn4/)
 
 ![img1](https://github.com/akihiko47/MIT-6.837-Assignment4/blob/main/9.bmp)
-![img2](https://github.com/akihiko47/MIT-6.837-Assignment2/blob/master/Images/mesh1.jpg)
-![img3](https://github.com/akihiko47/MIT-6.837-Assignment2/blob/master/Images/skel2.jpg)
-![img4](https://github.com/akihiko47/MIT-6.837-Assignment2/blob/master/Images/mesh2.jpg)
-![img5](https://github.com/akihiko47/MIT-6.837-Assignment2/blob/master/Images/skel3.jpg)
-![img6](https://github.com/akihiko47/MIT-6.837-Assignment2/blob/master/Images/mesh3.jpg)
+![img2](https://github.com/akihiko47/MIT-6.837-Assignment4/blob/main/8.bmp)
+![img1](https://github.com/akihiko47/MIT-6.837-Assignment4/blob/main/7.bmp)
+![img1](https://github.com/akihiko47/MIT-6.837-Assignment4/blob/main/1.bmp)
