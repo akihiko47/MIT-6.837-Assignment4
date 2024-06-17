@@ -33,12 +33,16 @@ public:
   Vector3f Shade( const Ray& ray, const Hit& hit,
                   const Vector3f& dirToLight, const Vector3f& lightColor ) {
 
-      Vector3f p = ray.getOrigin() + ray.getDirection() * hit.getT();
+      Vector3f V = -ray.getDirection().normalized();
+      Vector3f L = dirToLight.normalized();
+      Vector3f N = hit.getNormal().normalized();
 
-      Vector3f L = dirToLight;
-      Vector3f N = hit.getNormal();
+      Vector3f diff = clamp(Vector3f::dot(L, N), 0.0f, 1.0f) * lightColor * diffuseColor;
 
-      return clamp(Vector3f::dot(L, N), 0.0f, 1.0f) * lightColor * diffuseColor;
+      Vector3f H = (V + L).normalized();
+      Vector3f spec = pow(clamp(Vector3f::dot(H, N), 0.0f, 1.0f), shininess * 2.0f) * specularColor * lightColor;
+
+      return diff + spec;
   }
 
   void loadTexture(const char * filename){

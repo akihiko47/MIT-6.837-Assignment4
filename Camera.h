@@ -34,9 +34,9 @@ public:
 		m_direction = direction;
 		m_up = up;
 
-		w = direction;
-		u = Vector3f::cross(w, up);
-		v = Vector3f::cross(u, w);
+		w = direction.normalized();
+		u = Vector3f::cross(w, up).normalized();
+		v = Vector3f::cross(u, w).normalized();
 
 		m_angle = angle;
 	}
