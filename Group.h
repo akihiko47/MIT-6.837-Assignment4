@@ -36,8 +36,7 @@ public:
 
 	  for(int i = 0; i < objects.size(); i++)
 	  {	
-		  bool result = objects[i]->intersect(r, h, tmin);
-		  if(result)
+		  if(objects[i]->intersect(r, h, tmin))
 		  {
 			  if(h.getT() < t)
 			  {
@@ -50,10 +49,8 @@ public:
 	  {
 		  return false;
 	  }
-	  else
-	  {
-		  return true;
-	  }
+
+	  return true;
    }
 	
   void addObject( int index , Object3D* obj ){

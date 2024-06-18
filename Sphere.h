@@ -43,31 +43,16 @@ public:
 			return false;
 		}
 
-		float t0 = (-b + std::sqrtf(disc)) / (2.0 * a);
-		float t1 = (-b - std::sqrtf(disc)) / (2.0 * a);
+		float t = (-b - std::sqrtf(disc)) / (2.0 * a);
 
-		if (t0 < tmin && t1 < tmin) {
+		if (t < tmin || t > h.getT()) {
 			return false;
-		} else {
-			if (t0 < t1) {
-				if(t0 > h.getT())
-				{
-					return false;
-				}
-				Vector3f n = r.getOrigin() + t0 * r.getDirection() - m_center;
-				h.set(t0, material, n);
-				return true;
-			} else {
-				if(t1 > h.getT())
-				{
-					return false;
-				}
-				Vector3f n = r.getOrigin() + t1 * r.getDirection() - m_center;
-				h.set(t1, material, n);
-				return true;
-			}
 		}
 
+		Vector3f n = r.getOrigin() + t * r.getDirection() - m_center;
+		h.set(t, material, n);
+
+		return true;
 	}
 
 protected:
